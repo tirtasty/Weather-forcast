@@ -26,7 +26,7 @@
       <div class="card">
         <h3 class="card-header text-uppercase">Search By City</h3>
         <form id="user-form" class="card-body">
-          <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" />
+          <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" oninput="this.value = this.value.toUpperCase()"/>
           <button type="submit" class="btn">Get Weather</button>
         </form>
       </div>

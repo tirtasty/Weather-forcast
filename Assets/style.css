@@ -5,6 +5,7 @@
   --blue-light: #2569ac ;
   --light-dark: #454749 ;
   --dark: #245c5c;
+  --dark-font: #292c2c;
   --border-radius: 0.3rem;
 }
 
@@ -30,7 +31,7 @@ h5,
 h6 {
   font-weight: 700;
   margin: 0;
-  color: var(--dark);
+  color: var(--dark-font);
   line-height: 1.25;
 }
 
@@ -49,12 +50,14 @@ p {
 
 .hide {
   font-weight: 700;
-  color: var(--dark);
+  color: var(--dark-font);
   line-height: 1.25;
   font-size: 20px;
 }
 
-
+.city-search-term {
+  letter-spacing: 2px;
+}
 
 .btn {
   font-size: 1.3rem;

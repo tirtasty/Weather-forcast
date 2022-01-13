@@ -33,15 +33,42 @@ var formSubmitHandler = function (event) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=690b389bbce06cc3766da916b5049efd';
     fetch(apiUrl)
       .then(function (response) {
-        
         if (response.ok) {
           response.json().then(function (data) {
+            console.log(data)
+              //Rounding data from .00
               var windSpeed = Math.round(data.wind.speed);
+              // Display Data to DOM
               temp.textContent = Math.round(data.main.temp) - 273 + "\u00B0 Celcius";
-              wind.textContent = windSpeed.toFixed(1) * 3.6 + " KPH";
+              wind.textContent = windSpeed.toFixed(1) * 3.6 + " km/h";
               humidity.textContent = Math.round(data.main.humidity) + "%";
-          console.log(data)
-             console.log(data.weather[0].main);
+              console.log(data.coord)
+
+              // One call API
+              var lon = data.coord.lon;
+              var lat = data.coord.lat;
+              console.log(lon, lat)
+              //Getting More Data from One Call API for UV Index
+              var testUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=690b389bbce06cc3766da916b5049efd";
+              fetch (testUrl)
+              .then (function(response) {
+              if (response.ok){
+              response.json().then(function(dataOneCall){
+                console.log(dataOneCall)
+                uvIndex.textContent = dataOneCall.current.uvi;
+                if (dataOneCall.current.uvi < 2){
+                  uvIndex.style.backgroundColor = "lightgreen"
+                  uvIndex.style.color = "blue"
+                }else{
+                  uvIndex.style.backgroundColor = "red"
+                  uvIndex.style.color = "white"
+                }
+        })
+      }
+    })
+              
+
+              
           });
         } else {
           alert('Error: ' + response.statusText);
