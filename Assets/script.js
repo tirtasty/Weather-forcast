@@ -10,6 +10,8 @@ var humidity = document.querySelector('#humidity');
 var forecastCard = document.querySelector("forecast")
 var uvIndex = document.querySelector('#uvIndex');
 var currentDay = moment().format('dddd/MM/YY')
+var iconWeather = document.querySelector("#iconWeather")
+var description = document.querySelector("#descriptionWeather")
 
 // Forecast for 5 Days
 var firstDay = document.querySelector('#firstDay');
@@ -52,6 +54,9 @@ var formSubmitHandler = function (event) {
               //Rounding data from .00
               var windSpeed = Math.round(data.wind.speed);
               // Display Data to DOM
+              var iconCode = data.weather[0].icon;
+              iconWeather.src = "https://openweathermap.org/img/w/" + iconCode + ".png";
+              description.textContent = data.weather[0].description;
               temp.textContent = Math.round(data.main.temp) - 273 + "\u00B0 Celcius";
               wind.textContent = windSpeed.toFixed(1) * 3.6 + " km/h";
               humidity.textContent = Math.round(data.main.humidity) + "%";
@@ -70,17 +75,52 @@ var formSubmitHandler = function (event) {
                 console.log(dataOneCall)
                 uvIndex.textContent = dataOneCall.current.uvi;
                 // When value of UV Index less than 2, background will be green and if the value more than 2 background will be red
-                if (dataOneCall.current.uvi < 2){
-                  uvIndex.style.backgroundColor = "lightgreen"
-                  uvIndex.style.color = "blue"
+                var uvValue = dataOneCall.current.uvi;
+                if ( uvValue <= 2){
+                  uvIndex.style.backgroundColor = "#25ad25"
+                  uvIndex.style.color = "#dadaf0"
+                }else if (uvValue >= 3 && uvValue < 6) {
+                  uvIndex.style.backgroundColor = "#a0b125"
+                  uvIndex.style.color = "#dadaf0"
+                }else if (uvValue >= 6 && uvValue < 10){
+                  uvIndex.style.backgroundColor = "#b95000"
+                  uvIndex.style.color = "#dadaf0"
                 }else{
-                  uvIndex.style.backgroundColor = "red"
-                  uvIndex.style.color = "white"
+                  uvIndex.style.backgroundColor = "#b90000"
+                  uvIndex.style.color = "#dadaf0"
                 }
 
               // 5 Days Forecast
-              firstDay
+              for (let i = 1; i < 6; i++) {
+              let cardbodyElem = $("<div>").addClass("card-body-forecast");
 
+              let fiveDayCard = $("<div>").addClass(".cardbody");
+              let fiveDate = $("<p>").text(moment.unix(dataOneCall.daily[i].dt).format("ddd -MM-YY"));
+              fiveDayCard.addClass("headline");
+              // let todayDesc = $("<p>").text(dataOneCall.daily[i].weather[i].description);
+              // todayDesc.attr("id", "#todayDesc")
+              // console.log(todayDesc)
+              var celciusForecast = Math.round(dataOneCall.daily[i].temp.max) - 273;
+              let fiveDayTemp = $("<p>").text("Temp: " + celciusForecast + "\u00B0C");
+              fiveDayTemp.attr("id", "#fiveDayTemp[i]");
+              let fiveHumidity = $("<p>").attr("id", "humDay").text("Humidity: " + JSON.stringify(dataOneCall.daily[i].humidity) + "%");
+              fiveHumidity.attr("id", "#fiveHumidity[i]");
+
+              let iconCode = dataOneCall.daily[i].weather[0].icon;
+              let iconURL = "https://openweathermap.org/img/w/" + iconCode + ".png";
+              let weatherImgDay = $("<img>").attr("src", iconURL);
+              $("#testImage").attr("src", iconURL);
+
+              cardbodyElem.append(fiveDate);
+              cardbodyElem.append(weatherImgDay);
+              // cardbodyElem.append(todayDesc);
+              cardbodyElem.append(fiveDayTemp);
+              cardbodyElem.append(fiveHumidity);
+              fiveDayCard.append(cardbodyElem);
+              $("#five-day").append(fiveDayCard);
+              $("#fiveDayTemp[i]").empty();
+              $(".jumbotron").append(cardbodyElem);
+              }
              
         })
       }
