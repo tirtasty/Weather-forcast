@@ -30,19 +30,15 @@ var formSubmitHandler = function (event) {
   
     var cityName = cityInputEl.value.trim();
     if (cityName) {
-      // Change based on city name
       getWeather(cityName);
       // Display city name on dashboard and empty the input column.
       citySearchTerm.textContent = cityName + ' - ' +currentDay;
       cityInputEl.value = '';
-        let cardbodyHistory = $("<div>").addClass("card-body-history");
-        let buttonHistory = $("<button>").attr("id", "historyBtn").text(cityName)
-
-        cardbodyHistory.append(buttonHistory)
     } else {
       alert('Please enter a City name!');
     }
   };
+
   
 
   // Function to get city's weather
@@ -54,19 +50,18 @@ var formSubmitHandler = function (event) {
           response.json().then(function (data) {
               //Rounding data from .00
               var windSpeed = Math.round(data.wind.speed);
-              // Display Data to DOM
               var iconCode = data.weather[0].icon;
               iconWeather.src = "https://openweathermap.org/img/w/" + iconCode + ".png";
               description.textContent = data.weather[0].description;
               temp.textContent = Math.round(data.main.temp) - 273 + "\u00B0 Celcius";
               wind.textContent = windSpeed.toFixed(1) * 3.6 + " km/h";
               humidity.textContent = Math.round(data.main.humidity) + "%";
-              console.log(data.coord)
+              console.log(data.coord);
 
               // One call API
               var lon = data.coord.lon;
               var lat = data.coord.lat;
-              console.log(lon, lat)
+              console.log(lon, lat);
               //Getting More Data from One Call API for UV Index
               var forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=690b389bbce06cc3766da916b5049efd";
               fetch (forecastUrl)
@@ -74,9 +69,7 @@ var formSubmitHandler = function (event) {
               if (response.ok){
               response.json().then(function(dataOneCall){
                 console.log(dataOneCall)
-                uvIndex.textContent = dataOneCall.current.uvi;
                 // When value of UV Index less than 2 the background color will be green
-                
                 var uvValue = dataOneCall.current.uvi;
                 if ( uvValue < 2){
                   uvIndex.style.backgroundColor = "#25ad25"
@@ -90,7 +83,7 @@ var formSubmitHandler = function (event) {
                   uvIndex.style.backgroundColor = "#b95000"
                   uvIndex.style.color = "#dadaf0"
                   uvIndex.textContent = uvValue + " | HIGH"
-                }else if (uvValue >= 7 && uvValue < 11){
+                }else if (uvValue >= 7 && uvValue <= 10){
                   uvIndex.style.backgroundColor = "#b90000"
                   uvIndex.style.color = "#dadaf0"
                   uvIndex.textContent = uvValue + " | VERY HIGH"
@@ -121,9 +114,9 @@ var formSubmitHandler = function (event) {
               let weatherImgDay = $("<img>").attr("src", iconURL);
               $("#testImage").attr("src", iconURL);
 
+              // cardbodyElem.append(todayDesc);
               cardbodyElem.append(fiveDate);
               cardbodyElem.append(weatherImgDay);
-              // cardbodyElem.append(todayDesc);
               cardbodyElem.append(fiveDayTemp);
               cardbodyElem.append(fiveHumidity);
               fiveDayCard.append(cardbodyElem);
@@ -146,4 +139,5 @@ var formSubmitHandler = function (event) {
       });
   };
 
+  
   cityFormEl.addEventListener('submit', formSubmitHandler);
