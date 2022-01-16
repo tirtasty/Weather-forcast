@@ -32,17 +32,19 @@ var formSubmitHandler = function (event) {
     if (cityName) {
       // Change based on city name
       getWeather(cityName);
-      ;
       // Display city name on dashboard and empty the input column.
       citySearchTerm.textContent = cityName + ' - ' +currentDay;
       cityInputEl.value = '';
+        let cardbodyHistory = $("<div>").addClass("card-body-history");
+        let buttonHistory = $("<button>").attr("id", "historyBtn").text(cityName)
+
+        cardbodyHistory.append(buttonHistory)
     } else {
       alert('Please enter a City name!');
     }
   };
   
-    
-  
+
   // Function to get city's weather
   var getWeather = function (city) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=690b389bbce06cc3766da916b5049efd';
@@ -50,7 +52,6 @@ var formSubmitHandler = function (event) {
       .then(function (response) {
         if (response.ok) {
           response.json().then(function (data) {
-            console.log(data)
               //Rounding data from .00
               var windSpeed = Math.round(data.wind.speed);
               // Display Data to DOM
@@ -74,20 +75,29 @@ var formSubmitHandler = function (event) {
               response.json().then(function(dataOneCall){
                 console.log(dataOneCall)
                 uvIndex.textContent = dataOneCall.current.uvi;
-                // When value of UV Index less than 2, background will be green and if the value more than 2 background will be red
+                // When value of UV Index less than 2 the background color will be green
+                
                 var uvValue = dataOneCall.current.uvi;
-                if ( uvValue <= 2){
+                if ( uvValue < 2){
                   uvIndex.style.backgroundColor = "#25ad25"
                   uvIndex.style.color = "#dadaf0"
-                }else if (uvValue >= 3 && uvValue < 6) {
+                  uvIndex.textContent = uvValue + " | LOW"
+                }else if (uvValue >= 2 && uvValue < 5) {
                   uvIndex.style.backgroundColor = "#a0b125"
                   uvIndex.style.color = "#dadaf0"
-                }else if (uvValue >= 6 && uvValue < 10){
+                  uvIndex.textContent = uvValue + " | MODERATE"
+                }else if (uvValue >= 5 && uvValue < 7){
                   uvIndex.style.backgroundColor = "#b95000"
                   uvIndex.style.color = "#dadaf0"
-                }else{
+                  uvIndex.textContent = uvValue + " | HIGH"
+                }else if (uvValue >= 7 && uvValue < 11){
                   uvIndex.style.backgroundColor = "#b90000"
                   uvIndex.style.color = "#dadaf0"
+                  uvIndex.textContent = uvValue + " | VERY HIGH"
+                }else{
+                  uvIndex.style.backgroundColor = "rgb(138 0 185)"
+                  uvIndex.style.color = "#dadaf0"
+                  uvIndex.textContent = uvValue + " | EXTREME"
                 }
 
               // 5 Days Forecast
@@ -95,7 +105,7 @@ var formSubmitHandler = function (event) {
               let cardbodyElem = $("<div>").addClass("card-body-forecast");
 
               let fiveDayCard = $("<div>").addClass(".cardbody");
-              let fiveDate = $("<p>").text(moment.unix(dataOneCall.daily[i].dt).format("ddd -MM-YY"));
+              let fiveDate = $("<p>").text(moment.unix(dataOneCall.daily[i].dt).format("dddd"));
               fiveDayCard.addClass("headline");
               // let todayDesc = $("<p>").text(dataOneCall.daily[i].weather[i].description);
               // todayDesc.attr("id", "#todayDesc")
@@ -121,27 +131,19 @@ var formSubmitHandler = function (event) {
               $("#fiveDayTemp[i]").empty();
               $(".jumbotron").append(cardbodyElem);
               }
-             
         })
       }
     });        
           });
         } else {
+          location.reload();
           alert('Error: ' + response.statusText);
+          
         }
       })
       .catch(function (error) {                   
         alert('Unable to find city');
       });
   };
-  
-  
 
-
-
-
-  
   cityFormEl.addEventListener('submit', formSubmitHandler);
-
-
-  // forecast weather for 5 days 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=690b389bbce06cc3766da916b5049efd'
