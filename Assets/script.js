@@ -108,6 +108,7 @@ function renderButton(){
               if (response.ok){
               response.json().then(function(dataOneCall){
                 console.log(dataOneCall)
+                console.log(dataOneCall.daily[0].weather[0].main);
                 // Value UV Index will be displayed and represent with the colour and brief description.
                 var uvValue = dataOneCall.current.uvi;
                 if ( uvValue < 2){
@@ -141,7 +142,8 @@ function renderButton(){
 
               // let todayDesc = $("<p>").text(dataOneCall.daily[i].weather[i].description);
               // todayDesc.attr("id", "#todayDesc")
-            
+              var descForecast = dataOneCall.daily[i].weather[0].main;
+              console.log(descForecast)
               var celciusForecast = Math.round(dataOneCall.daily[i].temp.max) - 273;
               let fiveDayTemp = $("<p>").text("Temp: " + celciusForecast + "\u00B0C");
               fiveDayTemp.attr("id", "#fiveDayTemp[i]");
@@ -155,6 +157,7 @@ function renderButton(){
               // cardbodyElem.append(todayDesc);
               cardbodyElem.append(fiveDate);
               cardbodyElem.append(weatherImgDay);
+              cardbodyElem.append(descForecast)
               cardbodyElem.append(fiveDayTemp);
               cardbodyElem.append(fiveHumidity);
               fiveDayCard.append(cardbodyElem);
