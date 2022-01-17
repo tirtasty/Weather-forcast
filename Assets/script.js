@@ -48,10 +48,10 @@ var formSubmitHandler = function (event) {
       var value = cityName;
       localMemoryArray.push(value)
       localStorage.setItem("cities", JSON.stringify(localMemoryArray));
-
       // Create Button History List
       var histBtn = document.createElement("button");
       histBtn.setAttribute("class", "btn-history");
+
       histBtn.textContent = cityName;
       historySearch.append(histBtn);
     }
@@ -67,10 +67,13 @@ var formSubmitHandler = function (event) {
 function renderButton(){
   let searchList = JSON.parse(localStorage.getItem("cities"));
   if (searchList) {
-      for (i = 0; i < searchList.length; i++) {
+      for (var i = 0; i < searchList.length; i++) {
+        var citi = searchList[i]
           console.log(searchList.length);
           var histBtn = document.createElement("button");
           histBtn.setAttribute("class", "btn-history btn" + (i + 1));
+          histBtn.setAttribute("data-city", i);
+          histBtn.setAttribute("value", searchList[i])
           histBtn.textContent = searchList[i];
           historySearch.append(histBtn);
         }
@@ -176,19 +179,14 @@ function renderButton(){
 
 
   historySearch.addEventListener("click", function(event) {
-    $("#five-day").empty();
-    citySearchTerm.textContent = cityName + ' - ' +currentDay;
     var element = event.target;
-    
-    var memory = JSON.parse(localStorage.getItem("cities"))
-    console.log(memory);
+    console.log(element);
+    $("#five-day").empty();
     // Checks if element is a button
     if (element.matches("button") === true) {
+      citySearchTerm.textContent = element.value + ' - ' + currentDay;
       // Get its data-index value and remove the todo element from the list
-      var index = memory[i];
-      
-      var thisOne = memory.splice(index, 1);
-      
+      var thisOne = event.target.value;
       // Store updated todos in localStorage, re-render the list
       getWeather(thisOne)
     }
