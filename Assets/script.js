@@ -58,7 +58,7 @@ var formSubmitHandler = function (event) {
               humidity.textContent = Math.round(data.main.humidity) + "%";
               console.log(data.coord);
 
-              // One call API
+              // One call API Coordinate to get UVI
               var lon = data.coord.lon;
               var lat = data.coord.lat;
               console.log(lon, lat);
@@ -69,21 +69,21 @@ var formSubmitHandler = function (event) {
               if (response.ok){
               response.json().then(function(dataOneCall){
                 console.log(dataOneCall)
-                // When value of UV Index less than 2 the background color will be green
+                // Value UV Index will be displayed and represent with the colour and brief description.
                 var uvValue = dataOneCall.current.uvi;
                 if ( uvValue < 2){
                   uvIndex.style.backgroundColor = "#25ad25"
                   uvIndex.style.color = "#dadaf0"
                   uvIndex.textContent = uvValue + " | LOW"
-                }else if (uvValue >= 2 && uvValue < 5) {
+                }else if (uvValue >= 2 && uvValue <= 5) {
                   uvIndex.style.backgroundColor = "#a0b125"
                   uvIndex.style.color = "#dadaf0"
                   uvIndex.textContent = uvValue + " | MODERATE"
-                }else if (uvValue >= 5 && uvValue < 7){
+                }else if (uvValue > 5 && uvValue <= 7){
                   uvIndex.style.backgroundColor = "#b95000"
                   uvIndex.style.color = "#dadaf0"
                   uvIndex.textContent = uvValue + " | HIGH"
-                }else if (uvValue >= 7 && uvValue <= 10){
+                }else if (uvValue > 7 && uvValue <= 10){
                   uvIndex.style.backgroundColor = "#b90000"
                   uvIndex.style.color = "#dadaf0"
                   uvIndex.textContent = uvValue + " | VERY HIGH"
@@ -96,19 +96,18 @@ var formSubmitHandler = function (event) {
               // 5 Days Forecast
               for (let i = 1; i < 6; i++) {
               let cardbodyElem = $("<div>").addClass("card-body-forecast");
-
               let fiveDayCard = $("<div>").addClass(".cardbody");
               let fiveDate = $("<p>").text(moment.unix(dataOneCall.daily[i].dt).format("dddd"));
               fiveDayCard.addClass("headline");
+
               // let todayDesc = $("<p>").text(dataOneCall.daily[i].weather[i].description);
               // todayDesc.attr("id", "#todayDesc")
-              // console.log(todayDesc)
+            
               var celciusForecast = Math.round(dataOneCall.daily[i].temp.max) - 273;
               let fiveDayTemp = $("<p>").text("Temp: " + celciusForecast + "\u00B0C");
               fiveDayTemp.attr("id", "#fiveDayTemp[i]");
               let fiveHumidity = $("<p>").attr("id", "humDay").text("Humidity: " + JSON.stringify(dataOneCall.daily[i].humidity) + "%");
               fiveHumidity.attr("id", "#fiveHumidity[i]");
-
               let iconCode = dataOneCall.daily[i].weather[0].icon;
               let iconURL = "https://openweathermap.org/img/w/" + iconCode + ".png";
               let weatherImgDay = $("<img>").attr("src", iconURL);
