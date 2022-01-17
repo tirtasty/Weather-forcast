@@ -5,7 +5,7 @@ var citySearchTerm = document.querySelector('#city-search-term');
 var temp = document.querySelector('#temp');
 var humidity = document.querySelector('#humidity');
 var wind = document.querySelector('#wind');
-var historySearch = document.querySelector("history-search");
+var historySearch = document.querySelector("#history-search");
 var humidity = document.querySelector('#humidity');
 var forecastCard = document.querySelector("forecast")
 var uvIndex = document.querySelector('#uvIndex');
@@ -28,9 +28,21 @@ var forecastFiveDays = document.getElementsByClassName("column")
 var formSubmitHandler = function (event) {
     event.preventDefault();
   
-    var cityName = cityInputEl.value.trim();
+    var cityName = $("#cityname").val();
     if (cityName) {
+      console.log(cityName);
       getWeather(cityName);
+      // Setup Local Storage
+      localStorage.setItem("cities", JSON.stringify(cityName));
+      // Create Button History List
+      var histBtn = document.createElement("button");
+      histBtn.setAttribute("class", "btn")
+      
+      histBtn.textContent = cityName;
+      // histBtn.setAttribute("data-index", i);
+
+      historySearch.append(histBtn);
+
       // Display city name on dashboard and empty the input column.
       citySearchTerm.textContent = cityName + ' - ' +currentDay;
       cityInputEl.value = '';
