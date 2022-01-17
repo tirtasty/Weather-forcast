@@ -88,7 +88,8 @@ p {
   border: none;
   outline: none;
   background-color: var(--blue-light);
-  box-shadow: 3px 3px var(--dark);
+  transition: ease-in-out .2s;
+  box-shadow: 3px 3px var(--blue-light);
   transform: translate(-1px, -1px);
 }
 

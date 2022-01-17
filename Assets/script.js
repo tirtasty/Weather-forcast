@@ -13,7 +13,7 @@ var currentDay = moment().format('dddd/MM/YY')
 var iconWeather = document.querySelector("#iconWeather")
 var description = document.querySelector("#descriptionWeather")
 var historyButton = $(".btn-history");
-var localStorageCity = [];
+var forecastCard = $("#five-day");
 
 // Forecast for 5 Days
 var firstDay = document.querySelector('#firstDay');
@@ -33,19 +33,29 @@ var formSubmitHandler = function (event) {
     var cityName = $("#cityname").val();
     if (cityName) {
       console.log(cityName);
+      // Empty the 5 days forecast
+      $("#five-day").empty();
       getWeather(cityName);
+      makeMemory()
+
       // Setup Local Storage
-      localStorage.setItem("cities", JSON.stringify(cityName));
-      
+      function makeMemory(){
+      var localMemory = localStorage.getItem("cities");
+      var localMemoryArray = JSON.parse(localMemory);
+      if (!localMemoryArray){
+        localMemoryArray = []
+      }
+      var value = cityName;
+      localMemoryArray.push(value)
+      localStorage.setItem("cities", JSON.stringify(localMemoryArray));
+
       // Create Button History List
       var histBtn = document.createElement("button");
-      histBtn.setAttribute("class", "btn-history")
+      histBtn.setAttribute("class", "btn-history");
       histBtn.textContent = cityName;
       historySearch.append(histBtn);
-
-        // Store Cities List
-        
-      
+    }
+          
       // Display city name on dashboard and empty the input column.
       citySearchTerm.textContent = cityName + ' - ' +currentDay;
       cityInputEl.value = '';
@@ -54,7 +64,18 @@ var formSubmitHandler = function (event) {
     }
   };
 
-  
+function renderButton(){
+  let searchList = JSON.parse(localStorage.getItem("cities"));
+  if (searchList) {
+      for (i = 0; i < searchList.length; i++) {
+          console.log(searchList.length);
+          var histBtn = document.createElement("button");
+          histBtn.setAttribute("class", "btn-history btn" + (i + 1));
+          histBtn.textContent = searchList[i];
+          historySearch.append(histBtn);
+        }
+    }
+  }
 
   // Function to get city's weather
   var getWeather = function (city) {
@@ -153,5 +174,25 @@ var formSubmitHandler = function (event) {
       });
   };
 
+
+  historySearch.addEventListener("click", function(event) {
+    $("#five-day").empty();
+    var element = event.target;
+    
+    var memory = JSON.parse(localStorage.getItem("cities"))
+    console.log(memory);
+    // Checks if element is a button
+    if (element.matches("button") === true) {
+      // Get its data-index value and remove the todo element from the list
+      var index = memory[i];
+      
+      var thisOne = memory.splice(index, 1);
+      
+      // Store updated todos in localStorage, re-render the list
+      getWeather(thisOne)
+    }
+  })
+  // Render the button everytime we reload the page from 
+  renderButton()
   
   cityFormEl.addEventListener('submit', formSubmitHandler);
