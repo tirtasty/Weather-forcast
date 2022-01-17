@@ -61,6 +61,7 @@ p {
 
 
 .btn {
+  cursor: pointer;
   font-size: 1.3rem;
   text-decoration: none;
   padding: 6px 5px;
@@ -77,6 +78,7 @@ p {
 }
 
 .btn-history {
+  cursor: pointer;
   font-size: 1.3rem;
   text-decoration: none;
   padding: 6px 5px;
@@ -109,6 +111,31 @@ p {
 
 .btn-inline {
   display: inline;
+}
+
+#clearBtn{
+  cursor: pointer;
+  font-size: 1.3rem;
+  text-decoration: none;
+  padding: 6px 5px;
+  width: 100%;
+  display: block;
+  margin: 5px 0;
+  border-radius: var(--border-radius);
+  color: var(--primary);
+  border: none;
+  outline: none;
+  background-color: maroon;
+  transition: ease-in-out .2s;
+  box-shadow: 3px 3px grey;
+  transform: translate(-1px, -1px);
+}
+
+#clearBtn:hover {
+  color: var(--primary);
+  background-color: var(--tertiary);
+  transform: translate(0, 0);
+  box-shadow: 2px 2px var(--dark);
 }
 
 .btn-back {

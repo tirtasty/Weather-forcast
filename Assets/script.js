@@ -14,6 +14,7 @@ var iconWeather = document.querySelector("#iconWeather")
 var description = document.querySelector("#descriptionWeather")
 var historyButton = $(".btn-history");
 var forecastCard = $("#five-day");
+var clearButton = document.querySelector("#clearBtn");
 
 // Forecast for 5 Days
 var firstDay = document.querySelector('#firstDay');
@@ -22,8 +23,6 @@ var thirdDay = document.querySelector('#thirdDay');
 var forthDay = document.querySelector('#forthDay');
 var fifthDay = document.querySelector('#fifthDay');
 var forecastFiveDays = document.getElementsByClassName("column")
-
-// Setup Local Storage
 
 
 // Submit Button For Weather
@@ -71,11 +70,12 @@ function renderButton(){
         var citi = searchList[i]
           console.log(searchList.length);
           var histBtn = document.createElement("button");
-          histBtn.setAttribute("class", "btn-history btn" + (i + 1));
           histBtn.setAttribute("data-city", i);
           histBtn.setAttribute("value", searchList[i])
+          histBtn.setAttribute("class", "btn-history btn" + (i + 1));
           histBtn.textContent = searchList[i];
           historySearch.append(histBtn);
+          
         }
     }
   }
@@ -180,7 +180,7 @@ function renderButton(){
       });
   };
 
-
+  // Button for History Search List
   historySearch.addEventListener("click", function(event) {
     var element = event.target;
     console.log(element);
@@ -197,4 +197,11 @@ function renderButton(){
   // Render the button everytime we reload the page from 
   renderButton()
   
+// Clear Deck and Remove from Local Storage
+  clearButton.addEventListener("click", function(){
+    localStorage.removeItem("cities");
+    location.reload()
+  })
+
+
   cityFormEl.addEventListener('submit', formSubmitHandler);
