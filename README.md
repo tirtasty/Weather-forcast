@@ -32,7 +32,7 @@ https://github.com/tirtasty/Weather-forecast.git
 ![Display of current weather and 5 days forecast](./images/searchResult.PNG)
 
 ** This the demo how the app will works
-![Demo of the apps work](./Images/appDemo.gif)
+![Demo of the apps work](./images/appDemo.gif)
 
 ---
 ## Contributors
