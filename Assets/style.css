@@ -193,7 +193,7 @@ p {
 }
 
 .card-body-forecast {
-  
+  cursor: pointer;
   background-color: #087E8B;
   font-size: 16pt;
   color: white;
@@ -202,7 +202,16 @@ p {
   padding: 20px;
   flex-direction: row;
   width: auto;
+  transition: 0.25s;
 }
+
+.card-body-forecast:hover{
+  box-shadow: rgb(0, 64, 241) 0 2px 4px 2px;
+  
+}
+
+
+
 .headline {
   font-size: 25px;
   border: none;

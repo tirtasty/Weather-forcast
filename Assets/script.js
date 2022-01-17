@@ -67,14 +67,13 @@ function renderButton(){
   let searchList = JSON.parse(localStorage.getItem("cities"));
   if (searchList) {
       for (var i = 0; i < searchList.length; i++) {
-        var citi = searchList[i]
-          console.log(searchList.length);
-          var histBtn = document.createElement("button");
-          histBtn.setAttribute("data-city", i);
-          histBtn.setAttribute("value", searchList[i])
-          histBtn.setAttribute("class", "btn-history btn" + (i + 1));
-          histBtn.textContent = searchList[i];
-          historySearch.append(histBtn);
+        console.log(searchList.length);
+        var histBtn = document.createElement("button");
+        histBtn.setAttribute("data-city", i);
+        histBtn.setAttribute("value", searchList[i])
+        histBtn.setAttribute("class", "btn-history btn" + (i + 1));
+        histBtn.textContent = searchList[i];
+        historySearch.append(histBtn);
           
         }
     }
@@ -195,7 +194,7 @@ function renderButton(){
     }
   })
   // Render the button everytime we reload the page from 
-  renderButton()
+  
   
 // Clear Deck and Remove from Local Storage
   clearButton.addEventListener("click", function(){
@@ -203,5 +202,4 @@ function renderButton(){
     location.reload()
   })
 
-
-  cityFormEl.addEventListener('submit', formSubmitHandler);
+  cityFormEl.addEventListener('submit', formSubmitHandler, renderButton());
