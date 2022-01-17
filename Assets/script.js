@@ -12,6 +12,8 @@ var uvIndex = document.querySelector('#uvIndex');
 var currentDay = moment().format('dddd/MM/YY')
 var iconWeather = document.querySelector("#iconWeather")
 var description = document.querySelector("#descriptionWeather")
+var historyButton = $(".btn-history");
+var localStorageCity = [];
 
 // Forecast for 5 Days
 var firstDay = document.querySelector('#firstDay');
@@ -34,15 +36,16 @@ var formSubmitHandler = function (event) {
       getWeather(cityName);
       // Setup Local Storage
       localStorage.setItem("cities", JSON.stringify(cityName));
+      
       // Create Button History List
       var histBtn = document.createElement("button");
-      histBtn.setAttribute("class", "btn")
-      
+      histBtn.setAttribute("class", "btn-history")
       histBtn.textContent = cityName;
-      // histBtn.setAttribute("data-index", i);
-
       historySearch.append(histBtn);
 
+        // Store Cities List
+        
+      
       // Display city name on dashboard and empty the input column.
       citySearchTerm.textContent = cityName + ' - ' +currentDay;
       cityInputEl.value = '';

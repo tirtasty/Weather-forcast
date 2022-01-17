@@ -31,7 +31,7 @@ https://github.com/tirtasty/Weather-forecast.git
 ** Simply input the city in the coloumn search. The data will appear on the page and it will show the current day and city name, below that will appear brief description of the weather and follow by the image then temperature, wind humidity and UV index will appear on display, also the the end of page 5(five) days forcast will appear on display.
 ![Display of current weather and 5 days forecast](./images/searchResult.PNG)
 
-** This the demo how the app will works
+** This the demo how the app will works.
 ![Demo of the apps work](./images/appDemo.gif)
 
 ---
