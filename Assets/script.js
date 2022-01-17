@@ -177,6 +177,7 @@ function renderButton(){
 
   historySearch.addEventListener("click", function(event) {
     $("#five-day").empty();
+    citySearchTerm.textContent = cityName + ' - ' +currentDay;
     var element = event.target;
     
     var memory = JSON.parse(localStorage.getItem("cities"))
